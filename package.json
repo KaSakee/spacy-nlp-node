@@ -1,10 +1,16 @@
 {
   "name": "spacy-nlp-node",
-  "version": "1.1.0",
-  "description": "A library that will expose the parse method of SpaCy",
+  "version": "1.1.2",
+  "description": "A library that will expose the parse method of SpaCy to Node.js",
   "main": "index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+    "homepage": "https://github.com/KaSakee/spacy-nlp-node",
+
+    "repository": {
+    "type": "git",
+    "url": "git@github.com:KaSakee/spacy-nlp-node.git"
   },
   "keywords": [
     "spacy",
