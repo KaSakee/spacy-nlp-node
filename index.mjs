@@ -3,6 +3,8 @@ import Parse from "./Parse.mjs";
 import events from "events";
 import Type from "./Type.mjs";
 
+import InstallPythonPackages from "./InstallPythonPackages.mjs";
+await InstallPythonPackages();
 const EventEmitter = events.EventEmitter;
 const ProcessEmitter = new EventEmitter();
 
