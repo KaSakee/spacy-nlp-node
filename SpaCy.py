@@ -21,6 +21,8 @@ while True:
     Data = Query["query"]
     doc = nlp(Data)
     result = {"tag": Query["tag"], "results": doc.to_json()}
+    # convert result from single qoute to double qoute
+    result = json.dumps(result)
     print(result)
     # Flush all the print statements from console
     # sys.stdout.write(result)

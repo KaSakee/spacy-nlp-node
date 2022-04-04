@@ -1,25 +1,41 @@
 import { addCache, findCache } from "./Cache.mjs";
-export default (ProcessEmitter, pyshell, { TAG = "Unknown", query = "" }) => {
+import fs from "fs";
+export default async (
+  ProcessEmitter,
+  pyshell,
+  { TAG = "Unknown", query = "", TimeoutLimit = 30000 },
+  i
+) => {
   if (!query || query.length <= 0) return Type;
 
   const cacheItem = findCache(query);
 
-  if (cacheItem) return ProcessEmitter.emit(TAG, cacheItem);
+  if (cacheItem) return { tag: TAG, results: cacheItem };
 
-  // console.log("Sending!");
-  pyshell.send(
-    JSON.stringify({ query: query.replace(/'|"/gim, ""), tag: TAG })
-  );
+  return new Promise(async (resolve, reject) => {
+    let isSent = false;
 
-  pyshell.on("message", function (message) {
-    const { results, tag } = JSON.parse(
-      message.replace(/"/gim, "'").replace(/'/gim, '"')
+    pyshell.send(
+      JSON.stringify({ query: query.replace(/'|"/gim, ""), tag: TAG })
     );
 
-    addCache(query, results);
+    pyshell.on("message", function (message) {
+      if (!isSent) {
+        const { results, tag } = JSON.parse(message);
 
-    // console.log(tag);
+        addCache(query, results);
 
-    ProcessEmitter.emit(tag, results);
+        resolve({ tag: tag, results: results });
+        isSent = true;
+      }
+    });
+
+    setTimeout(() => {
+      if (!isSent) {
+        isSent = true;
+        // pyshell.removeAllListeners();
+        resolve({ error: "No response received, Time out" });
+      }
+    }, TimeoutLimit);
   });
 };
