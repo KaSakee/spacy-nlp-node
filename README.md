@@ -69,6 +69,9 @@ head: 0,
 
 The model used in this library "for now" is "en_core_web_trf", Will be adding more models to it soon if someone asked for it.
 
+## Help
+If there is anything that needs fixing or edited, please open an issue. You may also make a feature request.
+
 ## License
 
 This library is released under the MIT license.
